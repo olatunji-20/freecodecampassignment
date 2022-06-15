@@ -1,4 +1,5 @@
 {
+    "description": "A project that does something awesome",
 	"name": "fcc-learn-npm-package-json",
 	"author": "Falana Sheriff Olatunji",
 	"dependencies": {
