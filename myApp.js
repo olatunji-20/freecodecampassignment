@@ -1,5 +1,7 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
 
 mongoose.connect("mongodb+srv://olatunji:falanasheriffdeen@tunji.ce8aj.mongodb.net/backend?retryWrites=true&w=majority", {useNewUrlParser: true})
 
@@ -66,21 +68,46 @@ const createManyPeople = (arrayOfPeople, done) => {
 };
 
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Person.find({name: personName}, (err, data) => {
+    if(err) {
+      console.log(err)
+    }else {
+      done(null, data);
+      console.log(data)
+    }
+  })
 };
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food}, (err, data) => {
+    if(err){
+      console.log(err)
+    }else {
+      done(null, data)
+    }
+  });
 };
 
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findOne({_id: personId}, (err, data) => {
+    if(err) {
+      console.log(err)
+    }else {
+      done(null, data)
+    }
+  })
 };
 
 const findEditThenSave = (personId, done) => {
-  const foodToAdd = "hamburger";
+  var foodToAdd = "hamburger";
+  Person.findById(personId, function(err, data) {
+    if (err) {
+      done(err);
+    }
 
-  done(null /*, data*/);
+    data.favoriteFoods.push(foodToAdd);
+    data.save((err, data) => (err ? done(err) : done(null, data)));
+  });
 };
 
 const findAndUpdate = (personName, done) => {
