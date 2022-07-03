@@ -24,21 +24,56 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/:date?", (req, res) => {
-  var date = new Date(req.params.date);
-  var inUnix = date.getTime(date);
-  var inUtc = date.toUTCString(date);
-  var sha = isNaN(date);
-  console.log(date);
-  console.log(inUnix);
-  console.log(inUtc);
-  console.log(sha);
-
+app.get('/api/timestamp', (req, res) => {
+  let date = new Date();
   res.json({
-    "unix": inUnix,
-    "utc": inUtc
+    "unix": date.getTime(), "utc" : date.toUTCString()
   });
 });
+
+app.get('/api/timestamp/:date_string?', (req, res) => {
+
+  let inputDate = req.params.date_string;
+  let date;
+
+  if (!isNaN(inputDate)) {
+    date = new Date(parseInt(inputDate));
+  } else {
+    date = new Date(inputDate);
+  };
+
+  if (date.toString() === 'Invalid Date') {
+    res.json({
+      "error": date.toString()
+    });
+  } else {
+    res.json({
+      "unix": date.getTime(), "utc" : date.toUTCString()
+    });
+  }
+
+});
+
+
+
+
+
+
+// app.get("/api/:date?", (req, res) => {
+//   var date = new Date(req.params.date);
+//   var inUnix = date.getTime(date);
+//   var inUtc = date.toUTCString(date);
+  
+//   console.log(date);
+//   console.log(inUnix);
+//   console.log(inUtc);
+//   console.log(req.params);
+
+//   res.json({
+//     "unix": inUnix,
+//     "utc": inUtc
+//   });
+// });
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
