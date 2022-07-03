@@ -19,19 +19,24 @@ app.get("/", function (req, res) {
 });
 
 
-// your first API endpoint... 
+// your first API endpoint...   2015-12-24T23:00:00.000Z
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
 app.get("/api/:date?", (req, res) => {
   var date = new Date(req.params.date);
-  var inSeconds = date.getTime(date);
+  var inUnix = date.getTime(date);
+  var inUtc = date.toUTCString(date);
+  var sha = isNaN(date);
   console.log(date);
-  console.log(inSeconds);
+  console.log(inUnix);
+  console.log(inUtc);
+  console.log(sha);
 
   res.json({
-    "unix": inSeconds
+    "unix": inUnix,
+    "utc": inUtc
   });
 });
 
