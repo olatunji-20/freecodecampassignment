@@ -19,44 +19,21 @@ app.get("/", function (req, res) {
 });
 
 
-// your first API endpoint...   2015-12-24T23:00:00.000Z
+// your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get("/api/timestamp", (req, res) => {
-  let date = new Date();
-  res.json({
-    "unix": date.getTime(), "utc" : date.toUTCString()
+app.get("/api/:date?", (req, res) => {
+  let inputDate = new Date(req.params.date);
+  let unixTime = inputDate.getTime();
+  res.send({
+    "unix": unixTime
   });
-});
+  
+  console.log(unixTime)
 
-app.get("/api/timestamp/:date_string", (req, res) => {
-  let stringOfDate = req.params.date_string;
-  // console.log("string of date" + " " + stringOfDate);
-  let parsedDate = parseInt(stringOfDate)
-  // console.log("parsed date" + " " + parsedDate);
-
-  if(parsedDate > 10000) {
-    let inUnix = new Date(parsedDate);
-    res.json({
-      "unix": inUnix.getTime(),
-      "utc": inUnix.toUTCString()
-    })
-  }
-
-  let valueOfDate = new Date(stringOfDate);
-
-  if(valueOfDate == "Invalid Date") {
-    res.json({
-      "unix": valueOfDate.getTime(),
-      "utc": valueOfDate.toUTCString()
-    })
-  }
-
-
-
-});
+})
 
 
 
