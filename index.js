@@ -25,15 +25,36 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", (req, res) => {
+  
   let inputDate = new Date(req.params.date);
-  let unixTime = inputDate.getTime();
+
+  if(typeof(inputDate) === object) {
+    let unixTime = inputDate.getTime();
+  let utcTime = inputDate.toUTCString()
   res.send({
-    "unix": unixTime
+    "unix": unixTime,
+    "utc": utcTime
   });
   
   console.log(unixTime)
+  console.log(utcTime)
+  console.log(typeof(1451001600000))
 
-})
+  }else if(typeof(inputDate) == number) {
+    console.log(inputDate)
+    res.send(inputDate)
+  }
+  
+});
+
+// app.get("/api/1451001600000", (req, res) => {
+//   let time = 1451001600000;
+//   let utcTime = time.toUTCString()
+//   res.json({
+//     "unix": 1451001600000,
+//     "utc": utcTime
+//   })
+// })
 
 
 
